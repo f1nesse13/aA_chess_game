@@ -10,7 +10,7 @@ class Piece
   end
 
   def to_s
-    @color.to_s
+    " #{color}"
   end
 
   def empty?

@@ -1,4 +1,5 @@
 require_relative 'pieces'
+require_relative 'display'
 class Board
   attr_accessor :rows
   def initialize(fill_board = true)
@@ -28,10 +29,9 @@ class Board
   end
 
   def valid_pos?(pos)
-    pos.length = 2 &&
+    pos.count == 2 &&
     pos.is_a?(Array) &&
-    pos.all? { |num| Integer(num) }
-
+    pos.all? { |val| val.between?(0, 7) }
   end
 
   def add_piece(piece, pos)
@@ -63,6 +63,8 @@ end
 if $PROGRAM_NAME == __FILE__
 board = Board.new
 # board.add_piece(Piece.new("white", board, [0,0]), [0,0])
+Display.new(board).loop
+
 # board.move_piece([0,0], [0,4])
 
 end

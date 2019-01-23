@@ -1,4 +1,5 @@
 require "io/console"
+require_relative "board"
 
 KEYMAP = {
   " " => :space,
@@ -47,7 +48,7 @@ class Cursor
   private
 
   def read_char
-    STDIN.echo = false # stops the console from printing return values
+    STDIN.echo? # stops the console from printing return values
 
     STDIN.raw! # in raw mode data is given as is to the program--the system
                  # doesn't preprocess special characters such as control-c
@@ -69,17 +70,28 @@ class Cursor
       input << STDIN.read_nonblock(2) rescue nil
     end
 
-    STDIN.echo = true # the console prints return values again
+    STDIN.echo? # the console prints return values again
     STDIN.cooked! # the opposite of raw mode :)
 
     return input
   end
 
   def handle_key(key)
-  
+    case key
+      when :up, :down, :left, :right
+        update_pos(MOVES[key])
+      when :return, :space
+        cursor_pos
+      when :ctrl_c
+        Process.exit(0)
+      else
+        puts key
+      end
   end
 
   def update_pos(diff)
-  end
-  
+    new_pos = [cursor_pos[0] + diff[0], cursor_pos[1] + diff[1]]
+    @cursor_pos = new_pos if board.valid_pos?(new_pos)
+  end 
+
 end
