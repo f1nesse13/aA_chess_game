@@ -1,5 +1,3 @@
-require_relative '../board'
-
 class Piece
   attr_reader :board, :color
   attr_accessor :pos
@@ -10,7 +8,7 @@ class Piece
   end
 
   def to_s
-    " #{symbol}"
+    " #{symbol} "
   end
 
   def empty?
@@ -18,7 +16,7 @@ class Piece
   end
 
   def valid_moves
-    
+  moves.reject { |end_pos| move_into_check?(end_pos) }    
   end
   
   def symbol
@@ -28,7 +26,9 @@ class Piece
   private
 
   def move_into_check?(end_pos)
-
+    test_board = board.dup
+    test_board.move_piece!(pos, end_pos)
+    test_board.in_check?(color)
   end
 
 end

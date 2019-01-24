@@ -1,5 +1,5 @@
 require_relative 'pieces'
-
+require_relative 'display'
 class Board
   attr_accessor :rows
   def initialize(fill_board = true)
@@ -97,7 +97,7 @@ class Board
 
   def fill_pawn_row(color)
     i = color == :white ? 6 : 1
-    8.times { |x| Pawn.new(color, self, [i, j]) }
+    8.times { |x| Pawn.new(color, self, [i, x]) }
   end
 
   def create_grid(fill_board)
