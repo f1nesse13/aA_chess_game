@@ -1,11 +1,23 @@
+require_relative 'piece'
+require_relative 'stepable'
 class Knight < Piece
-
-  def initialize(color, board, pos)
-    super(color, board, pos)
+  include Stepable
+  
+  def symbol
+    '♞'.colorize(color)
   end
 
-  def moves
-
+  protected
+  
+  def move_dirs
+    [[-2, -1],
+     [-1, -2],
+     [-2, 1],
+     [-1, 2],
+     [1, -2],
+     [2, -1],
+     [1, 2],
+     [2, 1]]
   end
 
 end

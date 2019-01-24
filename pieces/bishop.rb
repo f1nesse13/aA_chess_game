@@ -1,11 +1,17 @@
+require_relative 'piece'
+require_relative 'slideable'
+
 class Bishop < Piece
-
-  def initialize(color, board, pos)
-    super(color, board, pos)
+  include Slideable
+  
+  def symbol  
+    '♝'.colorize(color)
   end
+  
+  protected
 
-  def moves
-
+  def move_dirs
+    diagonal_dirs
   end
 
 end

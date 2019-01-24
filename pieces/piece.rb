@@ -5,7 +5,7 @@ class Piece
   attr_accessor :pos
   
   def initialize(color, board, pos)
-    @color, @board, @pos = symbol, board, pos
+    @color, @board, @pos = color, board, pos
     board.add_piece(self, pos)
   end
 
@@ -18,11 +18,11 @@ class Piece
   end
 
   def valid_moves
-    raise NotImplementedError
+    
   end
   
   def symbol
-
+    raise NotImplementedError
   end
 
   private
