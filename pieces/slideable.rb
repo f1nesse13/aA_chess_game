@@ -6,7 +6,7 @@ DIAGONAL_DIRS = [
   [-1, -1], [-1, +1], [+1, +1], [+1, -1]
 ]
 
-def horizontal_and_vertical_dirs
+def horizontal_vertical_dirs
   HORIZONTAL_VERTICAL_DIRS
 end
 
@@ -34,9 +34,9 @@ def grow_unblocked_moves_in_dir(dx, dy)
   loop do
     x, y = cursor_x + dx, cursor_y + dy
     pos = [x, y]
-    break unless board.valid_pos(pos)
+    break unless board.valid_pos?(pos)
 
-    if board.empty?
+    if board.empty?(pos)
       moves << pos
     else
       moves << pos if board[pos].color != color

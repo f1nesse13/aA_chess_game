@@ -4,6 +4,7 @@ class Piece
   
   def initialize(color, board, pos)
     @color, @board, @pos = color, board, pos
+
     board.add_piece(self, pos)
   end
 
@@ -16,7 +17,7 @@ class Piece
   end
 
   def valid_moves
-  moves.reject { |end_pos| move_into_check?(end_pos) }    
+    moves.reject { |end_pos| move_into_check?(end_pos) }   
   end
   
   def symbol

@@ -30,33 +30,21 @@ class Board
     end
     move_piece!(start_pos, end_pos)
   end
-
-  def dup
-    n_board = Board.new(false)
-    pieces.each do |piece|
-      piece.class.new(piece.color, n_board, piece.pos)
-    end
-    n_board
-  end
-
+ 
   def move_piece!(start_pos, end_pos)
     piece = self[start_pos]
-    raise "You cannot move like that" unless
-    piece.moves.include?(end_pos)
-
+    raise "You cannot move like that" unless piece.moves.include?(end_pos)
     self[start_pos] = @sentinel
     self[end_pos] = piece
     piece.pos = end_pos
-    nil
   end
 
   def valid_pos?(pos)
-    pos.count == 2 &&
-    pos.is_a?(Array) &&
-    pos.all? { |val| val.between?(0, 7) }
+    pos.all? { |coord| coord.between?(0, 7) }
   end
 
   def add_piece(piece, pos)
+    raise 'position not empty' unless empty?(pos)
     self[pos] = piece
   end
 
@@ -74,9 +62,24 @@ class Board
       p.color != color && p.moves.include?(king_pos)
     end 
   end
+
+  def dup
+    new_board = Board.new(false)
+
+    pieces.each do |piece|
+      piece.class.new(piece.color, new_board, piece.pos)
+    end
+
+    new_board
+  end
+
   
+  def empty?(pos)
+    self[pos].empty?
+  end
+
   def pieces
-    @rows.flatten.reject(&:empty?)    
+    @rows.flatten.reject(&:empty?) 
   end
 
   private
@@ -108,13 +111,5 @@ class Board
       fill_pawn_row(color)
     end
   end
-
-end
-if $PROGRAM_NAME == __FILE__
-board = Board.new
-# board.add_piece(Piece.new("white", board, [0,0]), [0,0])
-Display.new(board).loop
-
-# board.move_piece([0,0], [0,4])
 
 end

@@ -9,7 +9,7 @@ class Knight < Piece
 
   protected
   
-  def move_dirs
+  def move_diffs
     [[-2, -1],
      [-1, -2],
      [-2, 1],

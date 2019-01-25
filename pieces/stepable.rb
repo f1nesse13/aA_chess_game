@@ -1,11 +1,11 @@
 module Stepable
 
   def moves
-    move_diffs.each_with_object([]) do |dx, dy, moves|
+    move_diffs.each_with_object([]) do |(dx, dy), moves|
       cursor_x, cursor_y = pos
       pos = [cursor_x + dx, cursor_y + dy]
 
-      next unless board.valid_pos(pos)
+      next unless board.valid_pos?(pos)
 
       if board.empty?(pos)
         moves << pos
@@ -17,8 +17,8 @@ module Stepable
   
   private
 
-  def move_diffs
-    raise NotImplementedError
-  end
+  # def move_diffs
+  #   raise NotImplementedError
+  # end
 
 end
