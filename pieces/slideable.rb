@@ -20,20 +20,22 @@ def moves
   move_dirs.each do |dx, dy|
     moves.concat(grow_unblocked_moves_in_dir(dx,dy))
   end
+  moves
 end
 
 private
 
 def move_dirs
-  raise "No implementation"
+  raise NotImplementedError
 end
 
 def grow_unblocked_moves_in_dir(dx, dy)
-  cursor_x, cursor_y = pos
+  cur_x, cur_y = pos
   moves = []
   loop do
-    x, y = cursor_x + dx, cursor_y + dy
-    pos = [x, y]
+    cur_x, cur_y = cur_x + dx, cur_y + dy
+    pos = [cur_x, cur_y]
+
     break unless board.valid_pos?(pos)
 
     if board.empty?(pos)

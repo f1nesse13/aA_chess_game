@@ -22,14 +22,14 @@ KEYMAP = {
   "\177" => :backspace,
   "\004" => :delete,
   "\u0003" => :ctrl_c,
-}
+}.freeze
 
 MOVES = {
   left: [0, -1],
   right: [0, 1],
   up: [-1, 0],
   down: [1, 0]
-}
+}.freeze
 
 class Cursor
 
@@ -77,16 +77,17 @@ class Cursor
     STDIN.echo? # the console prints return values again
     STDIN.cooked! # the opposite of raw mode :)
 
-    return input
+    input
   end
 
   def handle_key(key)
     case key
       when :up, :down, :left, :right
         update_pos(MOVES[key])
+        nil
       when :return, :space
         toggle_selected
-        @cursor_pos
+        cursor_pos
       when :ctrl_c
         Process.exit(0)
       else

@@ -3,10 +3,11 @@ require_relative 'cursor'
 require_relative 'board'
 
 class Display
-  attr_reader :board, :cursor
+  attr_reader :board, :cursor, :notifications
   def initialize(board)
     @board = board
     @cursor = Cursor.new([0,0], board)
+    @notifications = {}
   end
   
   def build_row(row, i)
@@ -35,28 +36,26 @@ class Display
     end
   end
 
+  def reset!
+    @notifications.delete(:error)
+  end
+
+  def uncheck!
+    @notifications.delete(:check)
+  end
+
+  def set_check!
+    @notifications[:check] = "Check!"
+  end
+
   def render
-    # system("cls") # Windows
+    system("cls") # Windows
     system("clear") # Mac
     puts "Use WASD to navigate and space or enter to confirm"
     build_grid.each { |row| puts row.join("") }
-  end
-
-  def loop
-    start_pos, end_pos = nil, nil
-    until start_pos && end_pos
-      self.render
-      @cursor.get_input
-      # board.move_piece(:black, [1, 1], [3, 1])
-      # board.move_piece(:white, [6, 1], [5, 1])
-      # board.move_piece(:white, [6, 1], [5, 1])
-      # board.move_piece(:white, [6, 1], [5, 1])
-    end
+    notifications.each do |_key, val|
+      puts val
   end
 end
 
-if $PROGRAM_NAME == __FILE__
-  board = Board.new
-  Display.new(board).loop
-  
 end
